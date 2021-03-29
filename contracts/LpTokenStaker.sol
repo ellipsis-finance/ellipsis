@@ -173,7 +173,7 @@ contract LpTokenStaker is Ownable {
         UserInfo storage user = userInfo[_pid][_user];
         uint256 accRewardPerShare = pool.accRewardPerShare;
         uint256 lpSupply = pool.lpToken.balanceOf(address(this));
-        if (block.timestamp > pool.lastRewardTime && lpSupply != 0) {
+        if (block.timestamp > pool.lastRewardTime && lpSupply != 0 && totalAP != 0) {
             uint256 duration = block.timestamp.sub(pool.lastRewardTime);
             uint256 reward = duration.mul(rewardsPerSecond).mul(allocPoints[_pid]).div(totalAP);
             accRewardPerShare = accRewardPerShare.add(reward.mul(1e12).div(lpSupply));

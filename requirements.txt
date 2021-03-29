@@ -1,0 +1,3 @@
+eth-brownie
+brownie-token-tester
+pytest
