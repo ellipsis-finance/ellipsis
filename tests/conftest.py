@@ -18,6 +18,11 @@ def bob(accounts):
     yield accounts[1]
 
 
+@pytest.fixture(scope="session")
+def charlie(accounts):
+    yield accounts[2]
+
+
 @pytest.fixture(scope="module")
 def pool2token(alice, bob):
     contract = ERC20()
