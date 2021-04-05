@@ -45,7 +45,7 @@ contract RewardsToken is ReentrancyGuard, Ownable {
     mapping(address => uint256) public depositedBalanceOf;
 
     // owner -> spender -> amount
-    mapping(address => mapping(address => uint256)) allowance;
+    mapping(address => mapping(address => uint256)) public allowance;
 
     /* ========== EVENTS ========== */
 
