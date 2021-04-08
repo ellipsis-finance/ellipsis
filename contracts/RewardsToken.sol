@@ -45,7 +45,7 @@ contract RewardsToken is ReentrancyGuard, Ownable {
     mapping(address => uint256) public depositedBalanceOf;
 
     // owner -> spender -> amount
-    mapping(address => mapping(address => uint256)) allowance;
+    mapping(address => mapping(address => uint256)) public allowance;
 
     /* ========== EVENTS ========== */
 
@@ -53,8 +53,8 @@ contract RewardsToken is ReentrancyGuard, Ownable {
     event RewardPaid(address indexed user, address indexed rewardsToken, uint256 reward);
     event RewardsDurationUpdated(address token, uint256 newDuration);
     event Recovered(address token, uint256 amount);
-    event Transfer(address from, address to, uint256 value);
-    event Approval(address owner, address spender, uint256 value);
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 
     /* ========== CONSTRUCTOR ========== */
 
