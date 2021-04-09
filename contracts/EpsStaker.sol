@@ -45,7 +45,7 @@ contract MultiFeeDistribution is ReentrancyGuard, Ownable {
         uint256 amount;
     }
 
-    IMintableToken public stakingToken;
+    IMintableToken public immutable stakingToken;
     address[] public rewardTokens;
     mapping(address => Reward) public rewardData;
 
