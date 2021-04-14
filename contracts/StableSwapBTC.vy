@@ -73,9 +73,15 @@ event StopRampA:
     A: uint256
     t: uint256
 
+event CommitNewFeeConverter:
+    deadline: indexed(uint256)
+    fee_converter: indexed(address)
 
-# This can (and needs to) be changed at compile time
-N_COINS: constant(int128) = 2  # <- change
+event NewFeeConverter:
+    fee_converter: indexed(address)
+
+
+N_COINS: constant(int128) = 2
 
 FEE_DENOMINATOR: constant(uint256) = 10 ** 10
 LENDING_PRECISION: constant(uint256) = 10 ** 18
@@ -110,6 +116,8 @@ transfer_ownership_deadline: public(uint256)
 future_fee: public(uint256)
 future_admin_fee: public(uint256)
 future_owner: public(address)
+future_fee_converter: public(address)
+fee_converter_deadline: public(uint256)
 
 is_killed: bool
 kill_deadline: uint256
@@ -755,3 +763,37 @@ def kill_me():
 def unkill_me():
     assert msg.sender == self.owner  # dev: only owner
     self.is_killed = False
+
+
+@external
+def commit_set_fee_converter(_fee_converter: address):
+    assert msg.sender == self.owner  # dev: only owner
+    assert self.fee_converter_deadline == 0  # dev: active transfer
+
+    _deadline: uint256 = block.timestamp + ADMIN_ACTIONS_DELAY
+    self.fee_converter_deadline = _deadline
+    self.future_fee_converter = _fee_converter
+
+    log CommitNewFeeConverter(_deadline, _fee_converter)
+
+
+@external
+def apply_set_fee_converter():
+    assert msg.sender == self.owner  # dev: only owner
+    assert block.timestamp >= self.fee_converter_deadline  # dev: insufficient time
+    assert self.fee_converter_deadline != 0  # dev: no active transfer
+
+    fee_converter: address = self.future_fee_converter
+    self.fee_converter = fee_converter
+    self.future_fee_converter = ZERO_ADDRESS
+    self.fee_converter_deadline = 0
+
+    log NewFeeConverter(fee_converter)
+
+
+@external
+def revert_set_fee_converter():
+    assert msg.sender == self.owner  # dev: only owner
+
+    self.fee_converter_deadline = 0
+    self.future_fee_converter = ZERO_ADDRESS
