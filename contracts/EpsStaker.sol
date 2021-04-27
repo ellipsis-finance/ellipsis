@@ -45,7 +45,7 @@ contract MultiFeeDistribution is ReentrancyGuard, Ownable {
         uint256 amount;
     }
 
-    IMintableToken public stakingToken;
+    IMintableToken public immutable stakingToken;
     address[] public rewardTokens;
     mapping(address => Reward) public rewardData;
 
@@ -68,9 +68,9 @@ contract MultiFeeDistribution is ReentrancyGuard, Ownable {
     uint256 public lockedSupply;
 
     // Private mappings for balance data
-    mapping(address => Balances) balances;
-    mapping(address => LockedBalance[]) userLocks;
-    mapping(address => LockedBalance[]) userEarnings;
+    mapping(address => Balances) private balances;
+    mapping(address => LockedBalance[]) private userLocks;
+    mapping(address => LockedBalance[]) private userEarnings;
 
     /* ========== CONSTRUCTOR ========== */
 

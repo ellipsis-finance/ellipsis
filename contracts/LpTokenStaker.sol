@@ -137,7 +137,7 @@ contract LpTokenStaker is Ownable {
     // for non-USD pools a rate is queried from a Chainlink oracle.
     function _getAllocPoints() internal view returns (uint256[] memory allocPoints, uint256 totalAP) {
         // Get the oracle prices. Oracle[0] is USD and fixed at $1 (100000000)
-        uint256[] memory latestPrices = new uint256[](oracles.length+1);
+        uint256[] memory latestPrices = new uint256[](oracles.length);
         latestPrices[0] = 100000000;
         for (uint256 i = 1; i < oracles.length; i++) {
             latestPrices[i] = uint256(oracles[i].latestAnswer());
