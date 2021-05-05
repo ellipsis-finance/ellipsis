@@ -101,6 +101,7 @@ contract MultiFeeDistribution is ReentrancyGuard, Ownable {
         require(rewardData[_rewardsToken].lastUpdateTime == 0);
         rewardTokens.push(_rewardsToken);
         rewardData[_rewardsToken].lastUpdateTime = block.timestamp;
+        rewardData[_rewardsToken].periodFinish = block.timestamp;
         rewardDistributors[_rewardsToken][_distributor] = true;
     }
 
