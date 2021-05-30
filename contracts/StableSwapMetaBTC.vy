@@ -105,9 +105,9 @@ MAX_COIN: constant(int128) = N_COINS - 1
 
 FEE_DENOMINATOR: constant(uint256) = 10 ** 10
 PRECISION: constant(uint256) = 10 ** 18  # The precision to convert to
-PRECISION_MUL: constant(uint256[N_COINS]) =  [1000000000000, 1]
-RATES: constant(uint256[N_COINS]) = [1000000000000000000000000000000, 1000000000000000000]
-BASE_N_COINS: constant(int128) = 3
+PRECISION_MUL: constant(uint256[N_COINS]) =  [10000000000, 1]
+RATES: constant(uint256[N_COINS]) = [10000000000000000000000000000, 1000000000000000000]
+BASE_N_COINS: constant(int128) = 2
 
 # An asset which may have a transfer fee (renBTC)
 FEE_INDEX: constant(int128) = 2
