@@ -11,13 +11,21 @@ contract FeeClaimer {
     address owner;
     IStableSwap[] public pools;
 
+    event FeeClaimSuccess(IStableSwap pool);
+    event FeeClaimRevert(IStableSwap pool);
+
     constructor() public {
         owner = msg.sender;
     }
 
     function claimFees() external {
         for (uint i = 0; i < pools.length; i++) {
-            pools[i].withdraw_admin_fees();
+            IStableSwap pool = pools[i];
+            try pool.withdraw_admin_fees() {
+                emit FeeClaimSuccess(pool);
+            } catch {
+                emit FeeClaimRevert(pool);
+            }
         }
     }
 
